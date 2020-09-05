@@ -1,3 +1,19 @@
+<?php 
+
+    require_once('inc/functions.php');
+
+    // seed function exicutive 
+    $info = '';
+    $task = $_GET['task'] ?? 'report'; // url task="seed"
+
+    // url mode
+    if('seed' == $task){
+        seed();
+        $info = "Seeding is Complete...";
+    }
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -24,6 +40,13 @@
                     <p>
                         A simple project to perform CRUD oparations using plain files and PHP
                     </p>
+                    <?php include_once('inc/templates/nav.php') ?>
+
+                    <?php 
+                        if($info != '') {
+                            echo "<p>{$info}</p>";
+                        }
+                    ?>
                 </div>
             </div>
         </div>

@@ -47,6 +47,17 @@
                             echo "<p>{$info}</p>";
                         }
                     ?>
+
+                    <?php if('report' == $task) { ?>
+
+                        <div class="row">
+                            <div class="column column-60 ">
+                                <?php generateReport() ?>
+                            </div>
+                        </div>
+
+                    <?php } ?>
+
                 </div>
             </div>
         </div>

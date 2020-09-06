@@ -45,3 +45,38 @@
         file_put_contents(DB_NAME,$serializeData,LOCK_EX);
 
     }
+
+    // all data get
+    function generateReport(){
+
+        // serialize data load
+        $serializedData = file_get_contents(DB_NAME);
+
+        // convert serialize to unserialize
+        $students = unserialize($serializedData);
+
+        ?>
+
+        <table>
+
+            <tr>
+                <th>Name</th>
+                <th>Profession</th>
+                <th>Action</th>
+            </tr>
+
+            <?php foreach($students as $student) { ?>
+
+            <tr>
+                <td> <?php printf('%s %s',$student['fname'],$student['lname']) ?> </td>
+                <td> <?php printf('%s',$student['profession']) ?> </td>
+                <td> <a href="#">Edit</a> |  <a href="#">Delete</a> </td>
+            </tr>
+
+            <?php  } ?>
+
+        </table>
+
+    <?php
+
+    }

@@ -5,11 +5,35 @@
     // seed function exicutive 
     $info = '';
     $task = $_GET['task'] ?? 'report'; // url task="seed"
+    $error = $_GET['error'] ?? '0'; 
 
     // url mode
     if('seed' == $task){
         seed();
         $info = "Seeding is Complete...";
+    }
+
+    $fname ='';
+    $lname = '';
+    $profession = '';
+    $employee_id = '';
+
+    // add function
+    if(isset($_POST['submit'])) {
+        $fname = filter_input(INPUT_POST,'fname',FILTER_SANITIZE_STRING);
+        $lname = filter_input(INPUT_POST,'lname',FILTER_SANITIZE_STRING);
+        $profession = filter_input(INPUT_POST,'profession',FILTER_SANITIZE_STRING);
+        $employee_id = filter_input(INPUT_POST,'employee_id',FILTER_SANITIZE_STRING);
+
+        if( $fname != '' && $lname != '' && $profession != '' &&  $employee_id != '') {
+            $result = addStudent($fname,$lname,$profession,$employee_id);
+            if($result) {
+                header('location:index.php?task=report');
+            }
+            else{
+                $error = 1;
+            }
+        }
     }
 
 ?>
@@ -48,11 +72,46 @@
                         }
                     ?>
 
+                    <?php if('1' == $error) { ?>
+
+                    <div class="row">
+                        <div class="column">
+                            <blockquote>Employee Id Duplicate</blockquote>
+                        </div>
+                    </div>
+
+                    <?php } ?>
+
                     <?php if('report' == $task) { ?>
 
                         <div class="row">
-                            <div class="column column-60 ">
+                            <div class="column">
                                 <?php generateReport() ?>
+                            </div>
+                        </div>
+
+                    <?php } ?>
+
+                    <?php if('add' == $task) { ?>
+
+                        <div class="row">
+                            <div class="column column-60 ">
+                                <form action="index.php?task=add" method="POST">
+
+                                    <label for="fname">First Name</label>
+                                    <input type="text" id="fname" name="fname" value="<?php echo $fname; ?>">
+
+                                    <label for="lname">Last Name</label>
+                                    <input type="text" id="lname" name="lname" value="<?php echo $lname; ?>">
+
+                                    <label for="profession">Profession</label>
+                                    <input type="text" id="profession" name="profession" value="<?php echo $profession; ?>">
+
+                                    <label for="employee_id">Employee ID</label>
+                                    <input type="number" id="employee_id" name="employee_id" value="<?php echo $employee_id; ?>">
+
+                                    <button type="submit" name="submit" class="button-primary">Submit</button>
+                                </form>
                             </div>
                         </div>
 

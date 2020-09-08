@@ -126,3 +126,16 @@
         return false;
         
     }
+
+    function get_student($id) {
+        $serializeData = file_get_contents(DB_NAME);
+        $students = unserialize($serializeData);
+
+        foreach($students as $student) {
+            if($student['id'] == $id) {
+                return $student;
+            }
+        }
+
+        return false;
+    }

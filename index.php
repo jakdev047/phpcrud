@@ -117,6 +117,68 @@
 
                     <?php } ?>
 
+                     <?php if('add' == $task) { ?>
+
+                        <div class="row">
+                            <div class="column column-60 ">
+                                <form action="index.php?task=add" method="POST">
+
+                                    <label for="fname">First Name</label>
+                                    <input type="text" id="fname" name="fname" value="<?php echo $fname; ?>">
+
+                                    <label for="lname">Last Name</label>
+                                    <input type="text" id="lname" name="lname" value="<?php echo $lname; ?>">
+
+                                    <label for="profession">Profession</label>
+                                    <input type="text" id="profession" name="profession" value="<?php echo $profession; ?>">
+
+                                    <label for="employee_id">Employee ID</label>
+                                    <input type="number" id="employee_id" name="employee_id" value="<?php echo $employee_id; ?>">
+
+                                    <button type="submit" name="submit" class="button-primary">Submit</button>
+                                </form>
+                            </div>
+                        </div>
+
+                    <?php } ?>
+
+                    <?php if('edit' == $task): 
+
+                        $id = filter_input(INPUT_GET,'id',FILTER_SANITIZE_STRING);
+                        $student = get_student($id);
+                        
+                        if($student):
+
+                    ?>
+
+                        <div class="row">
+                            <div class="column column-60 ">
+                                <form  method="POST">
+
+                                    <input type="hidden" value="<?php echo $id; ?>" name="id">
+
+                                    <label for="fname">First Name</label>
+                                    <input type="text" id="fname" name="fname" value="<?php echo $student['fname']; ?>">
+
+                                    <label for="lname">Last Name</label>
+                                    <input type="text" id="lname" name="lname" value="<?php echo $student['lname']; ?>">
+
+                                    <label for="profession">Profession</label>
+                                    <input type="text" id="profession" name="profession" value="<?php echo $student['profession']; ?>">
+
+                                    <label for="employee_id">Employee ID</label>
+                                    <input type="number" id="employee_id" name="employee_id" value="<?php echo $student['employee_id']; ?>">
+
+                                    <button type="submit" name="submit" class="button-primary">Update</button>
+                                </form>
+                            </div>
+                        </div>
+
+                    <?php  
+                        endif;
+                        endif;
+                    ?>
+
                 </div>
             </div>
         </div>

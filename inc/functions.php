@@ -139,3 +139,31 @@
 
         return false;
     }
+
+    function updateStudent($id,$fname,$lname,$profession,$employee_id) {
+        $found = false;
+        $serializeData = file_get_contents(DB_NAME);
+        $students = unserialize($serializeData);
+        
+        foreach($students as $_student) {
+            if($_student['employee_id'] == $employee_id && $_student['id'] != $id ) {
+                $found = true;
+                break;
+            }
+        }
+
+        if(!$found) {
+            $students[$id-1]['fname'] = $fname;
+            $students[$id-1]['lname'] = $lname;
+            $students[$id-1]['profession'] = $profession;
+            $students[$id-1]['employee_id'] = $employee_id;
+
+            $serializeData = serialize($students);
+            file_put_contents(DB_NAME,$serializeData,LOCK_EX);
+
+            return true;
+        }
+
+        return false;
+
+    }

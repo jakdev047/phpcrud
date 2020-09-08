@@ -79,7 +79,7 @@
                 <td> <?php printf('%s',$student['employee_id']) ?> </td>
                 <td> 
                     <?php 
-                        printf('<a href="index.php?task=edit&id=%s">Edit</a> | <a href="index.php?task=delete&id=%s">Delete</a>',$student['id'],$student['id']) 
+                        printf('<a href="index.php?task=edit&id=%s">Edit</a> | <a class="delete" href="index.php?task=delete&id=%s">Delete</a>',$student['id'],$student['id']) 
                     ?> 
                 </td>
             </tr>
@@ -106,7 +106,7 @@
         }
 
         if(!$found) {
-            $newId = count($students) + 1;
+            $newId = getNewId($students);
 
             $student = array(
                 'id'=> $newId,
@@ -166,4 +166,26 @@
 
         return false;
 
+    }
+
+    function getNewId($students) {
+        $maxId = max(array_column($students,'id'));
+        return $maxId + 1;
+    }
+
+    function deleteStudent($id) {
+        $serializeData = file_get_contents(DB_NAME);
+        $students = unserialize($serializeData);
+
+        $i=0;
+        foreach($students as $key=>$student) {
+            if($student['id'] == $id) {
+                unset($students[$key]);
+            }
+        }
+
+        $serializeData = serialize($students);
+        file_put_contents(DB_NAME,$serializeData,LOCK_EX);
+
+        return true;
     }

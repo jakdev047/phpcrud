@@ -13,6 +13,15 @@
         $info = "Seeding is Complete...";
     }
 
+    // delete url
+    if('delete' == $task) {
+        $id = filter_input(INPUT_GET,'id',FILTER_SANITIZE_STRING);
+        if($id > 0) {
+            deleteStudent($id);
+            header('location:index.php?task=report');
+        }
+    }
+
     $fname ='';
     $lname = '';
     $profession = '';
@@ -176,6 +185,8 @@
                 </div>
             </div>
         </div>
+
+        <script src="assets/js/app.js"></script>
     </body>
 
 </html>

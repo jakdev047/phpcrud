@@ -1,5 +1,10 @@
 <?php 
 
+    // session start
+    session_start([
+        'cookie_lifetime'=> 300
+    ]);
+    
     require_once('inc/functions.php');
 
     // seed function exicutive 

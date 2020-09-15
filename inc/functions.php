@@ -68,7 +68,9 @@
                 <th>Name</th>
                 <th>Profession</th>
                 <th>Employee Id</th>
+                <?php if(hasPrivilege()): ?>
                 <th>Action</th>
+                <?php endif; ?>
             </tr>
 
             <?php foreach($students as $student) { ?>
@@ -77,11 +79,17 @@
                 <td> <?php printf('%s %s',$student['fname'],$student['lname']) ?> </td>
                 <td> <?php printf('%s',$student['profession']) ?> </td>
                 <td> <?php printf('%s',$student['employee_id']) ?> </td>
+                <?php if(hasPrivilege()): ?>
                 <td> 
-                    <?php 
-                        printf('<a href="index.php?task=edit&id=%s">Edit</a> | <a class="delete" href="index.php?task=delete&id=%s">Delete</a>',$student['id'],$student['id']) 
-                    ?> 
+                    <?php if(isAdmin()):?>
+                        <?php 
+                            printf('<a href="index.php?task=edit&id=%s">Edit</a> | <a class="delete" href="index.php?task=delete&id=%s">Delete</a>',$student['id'],$student['id']) 
+                        ?> 
+                    <?php elseif(isEditor()): ?>
+                        <?php printf('<a href="index.php?task=edit&id=%s">Edit</a>',$student['id']) ?> 
+                    <?php endif; ?>
                 </td>
+                <?php endif; ?>
             </tr>
 
             <?php  } ?>
@@ -188,4 +196,23 @@
         file_put_contents(DB_NAME,$serializeData,LOCK_EX);
 
         return true;
+    }
+
+    function isAdmin() {
+        if(isset($_SESSION['roll'])) {
+            return ( 'admin' == $_SESSION['roll'] );
+        }
+        // return ( 'admin' == $_SESSION['roll'] );
+    }
+
+    function isEditor() {
+        return ( 'editor' == isset($_SESSION['roll']) );
+    }
+
+    function hasPrivilege() {
+        return ( isAdmin() || isEditor() );
+    }
+
+    function hasAdmin() {
+        return isAdmin();
     }

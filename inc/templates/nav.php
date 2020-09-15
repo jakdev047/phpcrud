@@ -1,9 +1,19 @@
+<?php 
+    require_once('inc/functions.php');
+?>
+
 <div>
     <div class="float-left">        
         <p>
-            <a href="index.php?task=report">All Student</a> |
-            <a href="index.php?task=add">Add</a> |
-            <a href="index.php?task=seed">Seed</a>
+            <a href="index.php?task=report">All Student</a> 
+
+            <?php if( hasPrivilege() ): ?>
+            | <a href="index.php?task=add">Add</a> 
+            <?php endif; ?>
+
+            <?php if(isAdmin()): ?>
+            | <a href="index.php?task=seed">Seed</a>
+            <?php endif; ?>
         </p>
     </div>
     <div class="float-right">

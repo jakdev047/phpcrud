@@ -10,7 +10,9 @@
         <?php if( isset($_SESSION['login']) == false ): ?>  
             <a href='auth.php'>Login</a>
         <?php else: ?>
-            <a href='auth.php?logout=true'>Logout </a>
+            <a href='auth.php?logout=true'>
+                Logout ( <?php echo $_SESSION['roll']; ?> )
+            </a>
         <?php endif; ?>
         
     </div>

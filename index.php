@@ -1,10 +1,8 @@
 <?php 
 
     // session start
-    session_start([
-        'cookie_lifetime'=> 300
-    ]);
-    
+    session_start();
+
     require_once('inc/functions.php');
 
     // seed function exicutive 
@@ -65,8 +63,6 @@
                 }
             }
         }
-
-        
     }
 
 ?>
@@ -116,7 +112,7 @@
                     <?php } ?>
 
                     <?php if('report' == $task) { ?>
-
+                        
                         <div class="row">
                             <div class="column">
                                 <?php generateReport() ?>

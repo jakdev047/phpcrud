@@ -9,10 +9,9 @@
     $password = filter_input(INPUT_POST,'password',FILTER_SANITIZE_STRING);
     $fp = fopen("./data/user.txt","r");
     $error = false;
+
     // initial session create
     $_SESSION['login'] = false;
-    $_SESSION['username'] = false;
-    $_SESSION['roll'] = false;
 
     // username & password chewck
     if( $username && $password ) {
@@ -23,20 +22,21 @@
         $_SESSION['roll'] = false;
 
         while($data = fgetcsv($fp)) {
-            if( $data[0] == $username && $data[1] == sha1($password) ) {
+            if( $username == $data[0] && sha1($password) == $data[1] ) {
                 $_SESSION['login'] = true;
                 $_SESSION['username'] = $username;
                 $_SESSION['roll'] = $data[2];
-                header('location:auth.php');
+                header('location:index.php');
             }
         }
 
         if( !$_SESSION['login'] ) {
             $error = true;
+            $_SESSION['login'] = false;
         }
     }
 
-    if( isset($_GET['logout'])) {
+    if( isset($_GET['logout']) == true ) {
         $_SESSION['login'] = false;
         $_SESSION['username'] = false;
         $_SESSION['roll'] = false;
@@ -67,7 +67,7 @@
         <div class="container">
             <div class="row">
                 <div class="column column-60 column-offset-20">
-                    <h2>Simple User Authentication</h2>
+                    <h2>CRUD AUTH</h2>
                     <?php 
                         if( true == $_SESSION['login']){
                             echo "<p>Hello Admin Welcome!</p>";
@@ -86,7 +86,7 @@
                         }
                         if( false == $_SESSION['login']): 
                     ?>
-                        <form action="index.php"  method="POST">
+                        <form method="POST">
                             <label for="username">User Name</label>
                             <input type="text" id="username" name="username">
 
